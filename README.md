@@ -14,3 +14,5 @@ The tutorials have Ruby titbits explained too for non-ruby developers.
    Creating a private network between Host and the VM.
 5. [tutorial-5](./tutorial-5):
    Set up multiple VMs in a single Vagrant file.
+5. [tutorial-6](./tutorial-6):
+   Set up MySQL server in one VM and access from other VM
