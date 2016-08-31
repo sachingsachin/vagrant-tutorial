@@ -1,4 +1,4 @@
-# vagrant-tutorial
+# vagrant-tutorial-1
 
 To get a base Vagrant file, run:
 ```bash
@@ -105,3 +105,10 @@ myfunc 1, b: 7
 7
 3
 ```
+
+# What does provision mean?
+
+Installing software on a booted system is called provisioning.
+
+Vagrant can be provisioned with shell, chef or puppet scripts.
+
