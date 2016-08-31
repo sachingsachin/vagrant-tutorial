@@ -25,3 +25,14 @@ $ ping 192.168.50.1
 # 64 bytes from 192.168.50.1: icmp_req=1 ttl=64 time=0.194 ms
 # 64 bytes from 192.168.50.1: icmp_req=2 ttl=64 time=0.289 ms
 ```
+
+Besides private-networking, Vagrant supports public-networking too.
+
+See [https://www.vagrantup.com/docs/networking/](https://www.vagrantup.com/docs/networking/) for more details.
+
+
+# Run as
+```bash
+vagrant up
+vagrant provision
+```

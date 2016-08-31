@@ -17,3 +17,10 @@ running in the VM.
 
 So if you hit [http://localhost:8080/](http://localhost:8080/) on your **Host Machine**'s browser, you will
 see the response from apache running in the VM but showing the files from host's CWD
+
+
+# Run as
+```bash
+vagrant up
+vagrant provision
+```
