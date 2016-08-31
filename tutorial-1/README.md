@@ -26,20 +26,23 @@ end
 # What does the above mean?
 
 In Ruby parlance, this means:
+
 1. The code between `do` and `end` keywords is a block and `config` is an argument for that block.
 2. We are calling the function `Vagrant.configure` with an argument of `2` and also passing the
 block to that function.
 3. `Vagrant.configure` will have a `yield config` statement inside it to execute that block inline.
 
 For non-Ruby developers, a rough analogy is:
+
 1. The code between `do` and `end` keywords is an anonymous function that takes `config` as an argument.
 2. The function `Vagrant.configure` gets two arguments - `2` and `the anonymous function`
 3. `Vagrant.configure` executes the anonymous function somewhere inside it by passing the `config` object.
 
-Inside the block/anonymous-function, we are just assigning some values to the config.vm's attributes.
-config.vm also has functions that we can execute.
+Inside the block/anonymous-function, we are just assigning some values to the `config.vm's` attributes.
 
 If you run it as `vagrant up`, you will see both the puts statements being executed.
+
+`config.vm` also has functions that we can execute.
 
 
 # Calling functions on config.vm
