@@ -23,7 +23,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "vm2" do |vm2|
     vm2.vm.box = "vm2"
     vm2.vm.network "forwarded_port", guest: 80, host: 8080
-    vm2.vm.provision :shell, inline: "apt-get update; apt-get -y install mysql-client"
+    vm2.vm.provision :shell, inline: "apt-get -qq update; apt-get -y install mysql-client"
     vm2.vm.network "private_network", ip: "192.168.50.5"
   end
 
@@ -34,7 +34,7 @@ end
 The file `bootstrap_db.sh` is as follows:
 ```bash
 export DEBIAN_FRONTEND=noninteractive
-apt-get update
+apt-get -qq update
 apt-get install -y mysql-server
 # Bind address from loopback to 0.0.0.0, which means all interfaces.
 # This is necessary to enable connections from remote machines.

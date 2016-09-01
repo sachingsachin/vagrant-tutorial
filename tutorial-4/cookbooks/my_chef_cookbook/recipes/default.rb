@@ -1,4 +1,4 @@
-execute "apt-get update"
+execute "apt-get -qq update"
 package "apache2"
 execute "rm -rf /var/www"
 link "/var/www" do

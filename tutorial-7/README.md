@@ -14,7 +14,7 @@ sudo chef-client --local-mode --runlist 'recipe[java]'
 
 Once ready, they can be added to the `Vagrantfile`
 
-# Running the exmaple
+# Running the example
 
 ```bash
 vagrant up --provision

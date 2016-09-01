@@ -17,7 +17,7 @@ bash 'install_java' do
   code <<-EOF
 
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
-    sudo apt-get -y -q update
+    sudo apt-get -y -qq update
 
     # Following two commands select 'OK' for the oracle's license prompts
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections

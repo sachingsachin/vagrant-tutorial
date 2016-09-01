@@ -3,7 +3,7 @@
 echo "=========================================="
 echo "Updating APT package manager"
 echo "=========================================="
-apt-get update
+apt-get -qq update
 
 
 echo "=========================================="
