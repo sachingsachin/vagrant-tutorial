@@ -23,6 +23,6 @@ end
 
 bash 'run_solr' do
     cwd solr_home
-    code "bin/solr start"
-    not_if 'jps -m | grep start.jar'
+    code "bin/solr start -z localhost:2181 -noprompt"
+    not_if 'ps -aef | grep solr | grep start.jar | grep -v grep'
 end
