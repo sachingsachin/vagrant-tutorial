@@ -26,3 +26,10 @@ clientPort=2181
 # Purge task interval in hours
 # Set to "0" to disable auto purge feature
 #autopurge.purgeInterval=1
+
+<% @count = 1 %>
+<% for @server in @node["vagrant_zk"]["server_list"] %>
+    <% puts "Adding #{@server} to zoo.cfg" %>
+    <%= "server.#{@count}=#{@server}:2181" %>
+    <% @count = @count + 1 %>
+<% end %>

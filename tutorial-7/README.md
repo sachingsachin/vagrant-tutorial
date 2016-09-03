@@ -30,3 +30,100 @@ wget localhost:8983/solr
 # 21:43:11 (351 MB/s) - `solr' saved [13349/13349]`
 ```
 
+# Documentation for the code
+
+This example is the hardest to understand among all the previous examples.
+
+There are several concepts which are very hard to get by, especially if you are not a ruby developer.
+
+But I will try to make it easy for other developers and will explain all the problems I went through.
+
+
+# Tip 1: Avoid using same variable-name.
+
+[https://www.vagrantup.com/docs/vagrantfile/tips.html](https://www.vagrantup.com/docs/vagrantfile/tips.html) 
+gives a small hint about this but this can be the hardest thing to understand.
+
+Consider the following piece of Vagrantfile
+```ruby
+    for j in 1..num_of_vms do
+        last_octet = j + 10
+        json_attribs["vagrant_zk"]["server_list"].push("192.168.50.#{last_octet}")
+    end
+
+    # Define all the VMs
+    (1..num_of_vms).each do |i|
+
+        # VM configuration variables
+        last_octet2 = i + 10
+
+        # Define a VM. Each one will have all the recipes listed above
+        config.vm.define "vm#{i}" do |vm|
+            vm.vm.box = "vm#{i}"
+            vm.vm.network "private_network", ip: "192.168.50.#{last_octet2}"
+        end
+    end
+```
+
+If you have the same loop variable in the two loops above, only the last of your VMs will have
+a usable IP address and AFAIK, there is no warning/error message printed in the gigantic log
+messages printed on the screen.
+
+This would be a big surprise to folks new to chef but that is how it is.
+
+Bottom-line: Make sure you do not re-use any variable-names at all.
+
+
+# Tip 2: Debugging the node-attributes
+
+The value you pass to chef.json remains the same for all the nodes !!
+
+It does not matter what you do but that cannot change.
+
+So how do you determine in the recipes what node you are working on?
+
+To figure that out, you need to be able to print out the entire node's attributes.
+
+[This discussion on StackOverflow](http://stackoverflow.com/questions/27441190/how-print-or-debug-chef-attributes) provides some hints on how to do the same.
+
+This example uses:
+```ruby
+output="#{Chef::JSONCompat.to_json_pretty(node.to_hash)}"
+file '/home/node.java.json' do
+  content output
+end
+```
+
+Looking at the node's attributes, it becomes easier to know what is going
+wrong, especially for chef beginners.
+
+
+# Tip 3: Caching downloads
+
+Another very annoying problem is that for a multi-VM setup, chef downloads same resources
+again and again for every VM. That makes it very time consuming.
+
+To avoid this, there is a plugin called [vagrant-cachier](https://github.com/fgrehm/vagrant-cachier) 
+
+Install it as:
+```bash
+vagrant plugin install vagrant-cachier
+```
+
+And then use it in your Vagrantfile as:
+```ruby
+   if Vagrant.has_plugin?("vagrant-cachier")
+        # Configure cached packages to be shared between instances of the same base box.
+        # More info on http://fgrehm.viewdocs.io/vagrant-cachier/usage
+        config.cache.scope = :box
+    end
+```
+
+It still doesn't prevent the downloads done by chef, but atleast the Vagrant ones are not duplicated.
+
+
+# Tip 4: Zookeeper logs directory
+
+This has an answer on [this StackOverflow question](http://stackoverflow.com/questions/28691341/zookeeper-log-file-not-created-inside-logs-directory)
+
+

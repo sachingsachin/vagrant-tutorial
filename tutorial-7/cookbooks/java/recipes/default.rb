@@ -11,6 +11,10 @@ template '/etc/apt/sources.list.d/java-8-debian.list' do
   mode '0755'
 end
 
+output="#{Chef::JSONCompat.to_json_pretty(node.to_hash)}"
+file '/home/node.java.json' do
+  content output
+end
 
 Chef::Log.info('Installing Java 8 using apt-get')
 bash 'install_java' do
