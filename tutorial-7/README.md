@@ -1,6 +1,7 @@
 # vagrant-tutorial-7
 
 This example uses chef to install the following:
+
 1. Java 8
 2. Zookeeper
 3. Solr-6 Cloud-Mode
