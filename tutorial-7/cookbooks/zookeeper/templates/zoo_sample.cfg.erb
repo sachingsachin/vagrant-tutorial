@@ -30,6 +30,6 @@ clientPort=2181
 <% @count = 1 %>
 <% for @server in @node["vagrant_zk"]["server_list"] %>
     <% puts "Adding #{@server} to zoo.cfg" %>
-    <%= "server.#{@count}=#{@server}:2181" %>
+    <%= "server.#{@count}=#{@server}:2888:3888" %>
     <% @count = @count + 1 %>
 <% end %>

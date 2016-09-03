@@ -27,7 +27,7 @@ bash 'install_java' do
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
     echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
 
-    sudo apt-get -y install oracle-java8-installer
-    sudo apt-get -y install oracle-java8-set-default
+    sudo apt-get -y -qq install oracle-java8-installer
+    sudo apt-get -y -qq install oracle-java8-set-default
   EOF
 end

@@ -123,8 +123,44 @@ And then use it in your Vagrantfile as:
 It still doesn't prevent the downloads done by chef, but atleast the Vagrant ones are not duplicated.
 
 
-# Tip 4: Zookeeper logs directory
+# Tip 4: Zookeeper in replicated mode
 
-This has an answer on [this StackOverflow question](http://stackoverflow.com/questions/28691341/zookeeper-log-file-not-created-inside-logs-directory)
+As described [here](https://zookeeper.apache.org/doc/r3.1.2/zookeeperStarted.html#sc_RunningReplicatedZooKeeper),
+this needs the following tasks:
+
+1. Add server.<number>=<host>:2888:3888 entries to zoo.cfg. Example:
+   ```
+   server.1=zoo1:2888:3888
+   server.2=zoo2:2888:3888
+   server.3=zoo3:2888:3888
+   ```
+2. For each ZK-server, add <data-dir>/myid file which should correspond to the number in #1 above.
+
+While the first one is easy to get because it is the same for all ZK nodes, second one is not so easy.
+
+It is different for each ZK node and hence we get this by looking for the IP address present in `node[network].to_hash.to_s` in the list of ZK-servers populated by `Vagrantfile`. (Details in zookeeper/recipes/default.rb)
+
+
+# Tip 5: Is Zookeeper up?
+
+Try the following commands from the Host machine:
+```bash
+echo ruok | nc 192.168.50.11 2181
+# imok
+echo ruok | nc 192.168.50.12 2181
+# imok
+```
+If you do not see `imok` returned by each one of the VMs, then it means something is wrong, even though you will see `Starting zookeeper ... STARTED` in the chef logs! How misleading!
+
+To debug zookeeper failure to start up, login to the VM and edit the bin/zkServer.sh file.
+
+Just before the STARTED echo, there is a java command that runs.
+
+Echo that entire command before execution and you will have much more details on why ZK did not start.
+
+
+# Tip 6: Zookeeper logs directory
+
+This has an answer on [this StackOverflow question](http://stackoverflow.com/questions/28691341/zookeeper-log-file-not-created-inside-logs-directory) but it is not really required.
 
 

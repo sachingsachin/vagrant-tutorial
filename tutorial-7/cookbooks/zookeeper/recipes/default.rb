@@ -58,13 +58,6 @@ template "#{zk_home}/conf/zoo.cfg" do
   mode '0666'
 end
 
-template "#{zk_home}/conf/zookeeper-env.sh" do
-  source 'zookeeper-env.sh.erb'
-  owner 'root'
-  group 'root'
-  mode '0777'
-end
-
 bash 'run_zk' do
     cwd zk_home
     code "bin/zkServer.sh start"
