@@ -31,7 +31,9 @@ Once ready, they can be added to the `Vagrantfile`
 6. [tutorial-6](./tutorial-6):
    Set up MySQL server in one VM and access from other VM
 7. [tutorial-7](./tutorial-7):
-   Installs Java-8, Zookeeper and Solr-6
+   Installs Java-8, Zookeeper and Solr-6.
+8. [tutorial-8](./tutorial-8):
+   Uses the java cookbook available in chef's supermarket to install java.
 
 
 See [https://www.vagrantup.com/docs/vagrantfile/](https://www.vagrantup.com/docs/vagrantfile/) for a reference on the options available to you in `Vagrantfile`.
