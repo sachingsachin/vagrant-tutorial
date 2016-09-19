@@ -161,7 +161,19 @@ Just before the STARTED echo, there is a java command that runs.
 Echo that entire command before execution and you will have much more details on why ZK did not start.
 
 
-# Tip 6: Zookeeper logs directory
+# Tip 6: Installing Java
+
+We use a self-made Java cookbook in this example.
+
+But chef already has one in its supermarket (a place where standard cookbooks are shared).
+
+So it is better to use that one as it may be better tested and more widely used.
+
+See [tutorial-8](../tutorial-8) for using the same.
+
+
+
+# Tip 7: Zookeeper logs directory
 
 This has an answer on [this StackOverflow question](http://stackoverflow.com/questions/28691341/zookeeper-log-file-not-created-inside-logs-directory) but it is probably not required.
 
