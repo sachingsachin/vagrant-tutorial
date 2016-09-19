@@ -13,7 +13,7 @@ This example uses chef to install the following:
 vagrant up --provision
 
 # Run this command
-wget 192.168.50.6:8983/solr
+wget 192.168.50.11:8983/solr
 
 # Or these two commands
 vagrant ssh
