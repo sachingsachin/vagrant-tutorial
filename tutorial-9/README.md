@@ -35,7 +35,7 @@ vagrant up --provision
 
 # Installing Java, influx-DB, grafana and telegraf
 
-Java is installed following the same procedure as described in [../tutorial-8](tutorial-8).
+Java is installed following the same procedure as described in [tutorial-8](../tutorial-8).
 
 [influx-grafana-telegraf.sh](./influx-grafana-telegraf.sh) is a provisioning script that installs
 influx-DB, grafana and telegraf on the VM.
