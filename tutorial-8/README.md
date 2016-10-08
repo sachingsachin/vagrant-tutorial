@@ -6,9 +6,20 @@
 If you haven't already setup chef on your machine, this is the way to do it.
 It also downloads `knife` on your machine which we will need to download cookbook for java.
 ```bash
+sudo su -
+apt-get install curl
+
+# Install rvm
 curl -sSL https://get.rvm.io | bash -s stable
 source ~/.rvm/scripts/rvm
+# or
+source /etc/profile.d/rvm.sh
+
+# Install ruby
 rvm install 2.3.1
+rvm --default use 2.3.1
+
+# Install chef
 gem install chef
 ```
 

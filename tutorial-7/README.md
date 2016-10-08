@@ -16,7 +16,7 @@ vagrant up --provision
 wget 192.168.50.11:8983/solr
 
 # Or these two commands
-vagrant ssh
+vagrant ssh vm1
 wget localhost:8983/solr
 
 # You will get the same output as shown below:

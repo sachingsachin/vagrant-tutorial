@@ -34,6 +34,8 @@ Once ready, they can be added to the `Vagrantfile`
    Installs Java-8, Zookeeper and Solr-6.
 8. [tutorial-8](./tutorial-8):
    Uses the java cookbook available in chef's supermarket to install java.
+9. [tutorial-9](./tutorial-9):
+   Installs influx-DB, grafana and telegraf. Also ues two provisioners in the same Vagrant file.
 
 
 See [https://www.vagrantup.com/docs/vagrantfile/](https://www.vagrantup.com/docs/vagrantfile/) for a reference on the options available to you in `Vagrantfile`.
