@@ -62,3 +62,18 @@ ping 192.168.50.11
 # 64 bytes from 192.168.50.11: icmp_req=2 ttl=64 time=0.029 ms
 ```
 
+You can even set up a chat server between the two VMs:
+
+|         vm1          |           vm2          |
+| -------------------- | ---------------------- |
+| vagrant ssh vm1      | vagrant ssh vm2        |
+| nc -l 2020           | nc 192.168.50.11 2020  |
+| > hello vm2          | > hello vm2            |
+
+And you can send `ruok` commands to each VM's ZK:
+```bash
+echo ruok | nc 192.168.50.11 2181
+# imok
+echo ruok | nc 192.168.50.12 2181
+# imok
+```
