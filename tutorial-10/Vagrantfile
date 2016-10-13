@@ -1,0 +1,52 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+
+
+    if Vagrant.has_plugin?("vagrant-cachier")
+        # Configure cached packages to be shared between instances of the same base box.
+        # More info on http://fgrehm.viewdocs.io/vagrant-cachier/usage
+        config.cache.scope = :box
+    end
+
+    config.vm.box = "precise64"
+    config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+
+    recipe_list = ENV.fetch("RECIPE_LIST", "oracle_java8::default,zookeeper").split(",")
+    num_of_vms = 2
+
+    # Create chef.json configuration
+    json_attribs = {}
+    json_attribs["vagrant_zk"] = {}
+    json_attribs["vagrant_zk"]["server_list"] = []
+    for j in 1..num_of_vms do
+        last_octet = j + 10
+        json_attribs["vagrant_zk"]["server_list"].push("192.168.50.#{last_octet}")
+    end
+
+    # Define all the VMs
+    (1..num_of_vms).each do |i|
+
+        # VM configuration variables
+        last_octet2 = i + 10
+
+        # Define a VM. Each one will have all the recipes listed above
+        config.vm.define "vm#{i}" do |vm|
+            vm.vm.box = "vm#{i}"
+            vm.vm.network "private_network", ip: "192.168.50.#{last_octet2}"
+            vm.omnibus.chef_version = '12.10.24'
+            vm.vm.provision "chef_solo" do |chef|
+                chef.cookbooks_path = ['cookbooks', 'site-cookbooks']
+                recipe_list.each do |recipe_name|
+                    chef.add_recipe recipe_name
+                    json_attribs.each do |jsonKey, jsonValue|
+                        chef.json[jsonKey] = jsonValue
+                    end
+                    chef.json["vagrant_zk"]["my_id"] = "#{i}"
+                end
+            end
+        end
+    end
+
+end
