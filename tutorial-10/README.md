@@ -4,6 +4,7 @@ This example uses chef to install the following:
 
 1. Java 8
 2. Zookeeper
+3. Apache Storm
 
 
 # Running the example
@@ -11,6 +12,8 @@ This example uses chef to install the following:
 ```bash
 ./run_me.sh
 ```
+
+Storm can be seen running on [http://192.168.50.11:8080/index.html](http://192.168.50.11:8080/index.html)
 
 # Prerequisites
 
@@ -28,7 +31,7 @@ If you had an error in your zookeeper cookbook, you would find that out after se
 
 The ability to iterate quickly is missing in such a case because you would have to do all the steps again to test the zookeeper cookbook.
 
-Hence the file [run_me.sh](run_me.sh) provisions the vagrant in stages.
+Hence the file [run\_me.sh](run_me.sh) provisions the vagrant in stages.
 ```bash
 vagrant up --no-provision
 
@@ -37,7 +40,7 @@ RECIPE_LIST=oracle_java8::default vagrant provision
 RECIPE_LIST=zookeeper vagrant provision
 ```
 
-And the environment variable RECIPE_LIST is used inside the Vagrantfile as:
+And the environment variable RECIPE\_LIST is used inside the Vagrantfile as:
 ```ruby
     recipe_list = ENV.fetch("RECIPE_LIST", "oracle_java8::default,zookeeper").split(",")
     ...

@@ -35,7 +35,9 @@ Once ready, they can be added to the `Vagrantfile`
 8. [tutorial-8](./tutorial-8):
    Uses the java cookbook available in chef's supermarket to install java.
 9. [tutorial-9](./tutorial-9):
-   Installs influx-DB, grafana and telegraf. Also ues two provisioners in the same Vagrant file.
+   Installs influx-DB, grafana and telegraf. Also uses two provisioners in the same Vagrant file.
+10. [tutorial-10](./tutorial-10):
+   Installs Java-8, Zookeeper and Storm. Also shows a multi-stage approach to provision your VMs. This avoids duplication of previous stages so that you can focus on the recipes not working currently.
 
 
 See [https://www.vagrantup.com/docs/vagrantfile/](https://www.vagrantup.com/docs/vagrantfile/) for a reference on the options available to you in `Vagrantfile`.
