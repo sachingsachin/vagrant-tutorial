@@ -1,2 +1,2 @@
-default['zookeeper']['version'] = '3.4.8'
-default['zookeeper']['urlbase'] = 'http://apache.claz.org/zookeeper/stable/'
+default['zookeeper']['version'] = '3.4.9'
+default['zookeeper']['urlbase'] = 'http://apache.claz.org/zookeeper/'

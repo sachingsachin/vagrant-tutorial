@@ -2,7 +2,7 @@ zk_version = node['zookeeper']['version']
 download_file = "zookeeper-#{zk_version}.tar.gz"
 local_file = "/vagrant/downloads/#{download_file}"
 zk_home = "/home/zookeeper-#{zk_version}"
-zk_url = "#{node['zookeeper']['urlbase']}/#{download_file}"
+zk_url = "#{node['zookeeper']['urlbase']}/zookeeper-#{zk_version}/#{download_file}"
 
 # Download Zookeeper from the above URL and store locally
 remote_file "#{local_file}" do
