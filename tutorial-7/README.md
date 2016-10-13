@@ -238,6 +238,34 @@ ensure that we do not add our own IP address to the `zoo.cfg` file. Instead of t
 address, it requires `0.0.0.0` to be put in. After doing that, zookeeper finally responds to
 the `srvr` command too.
 
+```bash
+vagrant ssh vm1
+
+echo srvr | nc 192.168.50.11 2181
+# Zookeeper version: 3.4.9-1757313, built on 08/23/2016 06:50 GMT
+# Latency min/avg/max: 0/0/0
+# Received: 1
+# Sent: 0
+# Connections: 1
+# Outstanding: 0
+# Zxid: 0x0
+# Mode: follower
+# Node count: 4
+
+echo srvr | nc 192.168.50.12 2181
+# Zookeeper version: 3.4.9-1757313, built on 08/23/2016 06:50 GMT
+# Latency min/avg/max: 0/0/0
+# Received: 1
+# Sent: 0
+# Connections: 1
+# Outstanding: 0
+# Zxid: 0x100000000
+# Mode: leader
+# Node count: 4
+```
+See how one zookeeper node is a leader while the other is a follower?
+
+Zookeeper is now working in the cluster mode baby!
 
 # Tip 7: Installing Java
 
