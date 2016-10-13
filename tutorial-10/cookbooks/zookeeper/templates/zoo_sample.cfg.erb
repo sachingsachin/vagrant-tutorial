@@ -14,7 +14,7 @@ dataDir=/home/zookeeper_dataDir
 clientPort=2181
 # the maximum number of client connections.
 # increase this if you need to handle more clients
-#maxClientCnxns=60
+maxClientCnxns=60
 #
 # Be sure to read the maintenance section of the 
 # administrator guide before turning on autopurge.
@@ -27,9 +27,35 @@ clientPort=2181
 # Set to "0" to disable auto purge feature
 #autopurge.purgeInterval=1
 
+<%
+puts "\n"
+puts "------------------------------"
+puts " Finding own IP to put 0.0.0.0"
+puts "------------------------------"
+server_list = node['vagrant_zk']['server_list']
+network = node['network'].to_hash
+my_ip = ''
+server_list.each do |server|
+  puts "Looking for #{server} in network config"
+  network['interfaces'].each do |key,val|
+    if val.key?('addresses') and val['addresses'].key?(server)
+      puts "Found my_ip = #{server}!"
+      my_ip = "#{server}"
+      break;
+    end
+  end
+end
+%>
+
+
 <% @count = 1 %>
+<% puts "my_ip = #{my_ip}" %>
 <% for @server in @node["vagrant_zk"]["server_list"] %>
     <% puts "Adding #{@server} to zoo.cfg" %>
+    <% if "#{@server}" == "#{my_ip}" %>
+    <%= "server.#{@count}=0.0.0.0:2888:3888" %>
+    <% else %>
     <%= "server.#{@count}=#{@server}:2888:3888" %>
+    <% end %>
     <% @count = @count + 1 %>
 <% end %>

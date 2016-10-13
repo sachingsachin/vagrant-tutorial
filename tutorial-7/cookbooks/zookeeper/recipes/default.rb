@@ -29,16 +29,26 @@ directory '/home/zookeeper_dataDir' do
 end
 
 # server_list is populated by the Vagrantfile
+puts "\n"
+puts "------------------------"
+puts " Finding value for myid"
+puts "------------------------"
 server_list = node['vagrant_zk']['server_list']
-network = node['network'].to_hash.to_s
+network = node['network'].to_hash
 my_id = 1
+found_my_id = false
 server_list.each do |server|
-  puts "Looking for #{server} in #{network}"
-  if network.index(server) != nil
-    puts "Found my_id = #{my_id}!"
-    break;
+  puts "Looking for #{server} in the network config"
+  network['interfaces'].each do |key,val|
+    if val.key?('addresses') and val['addresses'].key?(server)
+      puts "Found my_id = #{my_id}!"
+      found_my_id = true
+      break;
+    end
   end
-  my_id = my_id + 1
+  if found_my_id == false
+    my_id = my_id + 1
+  end
 end
 
 

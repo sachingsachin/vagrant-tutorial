@@ -161,7 +161,85 @@ Just before the STARTED echo, there is a java command that runs.
 Echo that entire command before execution and you will have much more details on why ZK did not start.
 
 
-# Tip 6: Installing Java
+
+# Tip 6: Does Zookeeper work even if you see imok?
+
+`imok` only tells that the zookeeper node is running.
+
+It does not inform whether the zookeeper has joined a cluster or not.
+
+To do that, use the srvr command:
+```bash
+echo srvr | nc 192.168.50.11 2181
+```
+
+If it does not return a valid output, then:
+
+```bash
+vagrant ssh vm1
+cd /home/zookeeper-3.4.9/
+cat zookeeper.out
+```
+
+And you will see the following exception occuring every minute:
+```
+2016-10-13 05:07:29,310 [myid:1] - INFO  [QuorumPeer[myid=1]/0:0:0:0:0:0:0:0:2181:QuorumPeer$QuorumServer@149] - Resolved hostname: 192.168.50.12 to address: /192.168.50.12
+2016-10-13 05:07:29,310 [myid:1] - INFO  [QuorumPeer[myid=1]/0:0:0:0:0:0:0:0:2181:FastLeaderElection@852] - Notification time out: 60000
+2016-10-13 05:08:29,312 [myid:1] - WARN  [QuorumPeer[myid=1]/0:0:0:0:0:0:0:0:2181:QuorumCnxManager@400] - Cannot open channel to 2 at election address /192.168.50.12:3888
+java.net.ConnectException: Connection refused
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:589)
+	at org.apache.zookeeper.server.quorum.QuorumCnxManager.connectOne(QuorumCnxManager.java:381)
+	at org.apache.zookeeper.server.quorum.QuorumCnxManager.connectAll(QuorumCnxManager.java:426)
+	at org.apache.zookeeper.server.quorum.FastLeaderElection.lookForLeader(FastLeaderElection.java:843)
+	at org.apache.zookeeper.server.quorum.QuorumPeer.run(QuorumPeer.java:822)
+```
+
+This is a bit of surprising because the two machines can ping each other:
+```bash
+vagrant ssh vm1
+ping 192.168.50.12
+# PING 192.168.50.12 (192.168.50.12) 56(84) bytes of data.
+# 64 bytes from 192.168.50.12: icmp_req=1 ttl=64 time=0.275 ms
+# 64 bytes from 192.168.50.12: icmp_req=2 ttl=64 time=0.413 ms
+
+ping 192.168.50.11
+# PING 192.168.50.11 (192.168.50.11) 56(84) bytes of data.
+# 64 bytes from 192.168.50.11: icmp_req=1 ttl=64 time=0.016 ms
+# 64 bytes from 192.168.50.11: icmp_req=2 ttl=64 time=0.029 ms
+```
+
+You can even set up a chat server between the two VMs:
+
+|         vm1          |           vm2          |
+| -------------------- | ---------------------- |
+| vagrant ssh vm1      | vagrant ssh vm2        |
+| nc -l 2020           | nc 192.168.50.11 2020  |
+| > hello vm2          | > hello vm2            |
+
+And you can send `ruok` commands to each VM's ZK:
+```bash
+echo ruok | nc 192.168.50.11 2181
+# imok
+echo ruok | nc 192.168.50.12 2181
+# imok
+```
+
+The problem is that ZK's guide does not do a good job of documenting what is required for a networked zookeeper!!
+
+Apart from the above two requirements, there is another one mentioned in the following [SO question](http://stackoverflow.com/questions/30940981/zookeeper-error-cannot-open-channel-to-x-at-election-address)
+
+So, we will need to change the `cookbooks/zookeeper/templates/zoo_sample.cfg.erb` file and
+ensure that we do not add our own IP address to the `zoo.cfg` file. Instead of the VM's own IP
+address, it requires `0.0.0.0` to be put in. After doing that, zookeeper finally responds to
+the `srvr` command too.
+
+
+# Tip 7: Installing Java
 
 We use a self-made Java cookbook in this example.
 
@@ -173,7 +251,7 @@ See [tutorial-8](../tutorial-8) for using the same.
 
 
 
-# Tip 7: Zookeeper logs directory
+# Tip 8: Zookeeper logs directory
 
 This has an answer on [this StackOverflow question](http://stackoverflow.com/questions/28691341/zookeeper-log-file-not-created-inside-logs-directory) but it is probably not required.
 
