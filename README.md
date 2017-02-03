@@ -41,3 +41,8 @@ Once ready, they can be added to the `Vagrantfile`
 
 
 See [https://www.vagrantup.com/docs/vagrantfile/](https://www.vagrantup.com/docs/vagrantfile/) for a reference on the options available to you in `Vagrantfile`.
+
+
+# Useful chef concepts
+
+1. [Order of execution in chef recipes](http://serverfault.com/questions/604719/chef-recipe-order-of-execution-redux)
