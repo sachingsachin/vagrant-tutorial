@@ -45,4 +45,5 @@ See [https://www.vagrantup.com/docs/vagrantfile/](https://www.vagrantup.com/docs
 
 # Useful chef concepts
 
-1. [Order of execution in chef recipes](http://serverfault.com/questions/604719/chef-recipe-order-of-execution-redux)
+1. [Order of execution in chef recipes](http://serverfault.com/questions/604719/chef-recipe-order-of-execution-redux) - Takeaway is that resources are converged after the recipe is compiled. Thus any statements not within a resource are executed immediately and then the resources are executed in the order they were declared. This is not something immediately obvious to chef newbies.
+2. [ruby_block](https://docs.chef.io/resource_ruby_block.html) - Ruby code in the ruby_block resource is evaluated with other resources during convergence, whereas Ruby code outside of a ruby_block resource is evaluated before other resources, as the recipe is compiled. So this block comes in very handy when you want to execute something during convergence - for example you want to read and print some files that will be produced by other resources converging before this block.
